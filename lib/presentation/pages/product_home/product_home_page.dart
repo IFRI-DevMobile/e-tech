@@ -364,7 +364,8 @@ class ProductHomePage extends GetView<ProductHomeController> {
         ],
       ),
       child: Material(
-        color: Colors.transparent,
+        color: Color.fromARGB(26, 0, 0, 255),
+        shape: const CircleBorder(),
         child: InkWell(
           onTap: controller.onScanPressed,
           customBorder: const CircleBorder(),
