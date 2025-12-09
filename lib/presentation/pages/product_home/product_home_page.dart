@@ -22,11 +22,11 @@ class ProductHomePage extends GetView<ProductHomeController> {
                     children: [
                       const SizedBox(height: 20),
                       _buildSearchBar(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 24),
                       _buildTabs(),
                       const SizedBox(height: 20),
                       _buildProductsGrid(),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 100),
                     ],
                   ),
                 ),
@@ -43,34 +43,34 @@ class ProductHomePage extends GetView<ProductHomeController> {
 
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      padding: const EdgeInsets.all(20.0),
       child: Row(
         children: [
           const Expanded(
             child: Text(
               'Trouvez l\'appareil qui\nvous convient',
               style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.w600,
-                height: 1.2,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                height: 1.3,
                 color: Colors.black,
               ),
             ),
           ),
           const SizedBox(width: 16),
           Container(
-            width: 50,
-            height: 50,
+            width: 48,
+            height: 48,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(0xFF1E3A8A),
+              color: Color(0xFF2C4A9E),
             ),
             child: ClipOval(
-              child: Image.network(
-                'https://ui-avatars.com/api/?name=U&background=1E3A8A&color=fff&size=50',
+              child: Image.asset(
+                'assets/images/Products/Pro.jpg',
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.person, color: Colors.white, size: 28);
+                  return const Icon(Icons.person, color: Colors.white, size: 24);
                 },
               ),
             ),
@@ -85,45 +85,42 @@ class ProductHomePage extends GetView<ProductHomeController> {
       children: [
         Expanded(
           child: Container(
-            height: 50,
+            height: 48,
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: const Color(0xFF3B5998), width: 1.5),
-              borderRadius: BorderRadius.circular(25),
+              border: Border.all(color: const Color(0xFF5B7FCD), width: 1.5),
+              borderRadius: BorderRadius.circular(30),
             ),
             child: TextField(
               onChanged: controller.onSearchChanged,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Search Product',
                 hintStyle: TextStyle(
-                  color: const Color(0xFF3B5998),
+                  color: Color(0xFF5B7FCD),
                   fontSize: 15,
                 ),
-                prefixIcon: const Icon(
+                prefixIcon: Icon(
                   Icons.search,
-                  color: Color(0xFF3B5998),
-                  size: 24,
+                  color: Color(0xFF5B7FCD),
+                  size: 22,
                 ),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 14,
-                ),
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               ),
             ),
           ),
         ),
         const SizedBox(width: 12),
         Container(
-          width: 50,
-          height: 50,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: const Color(0xFF3B5998), width: 1.5),
-            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFF5B7FCD), width: 1.5),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: IconButton(
-            icon: const Icon(Icons.grid_view_rounded, color: Color(0xFF3B5998), size: 24),
+            icon: const Icon(Icons.grid_view, color: Color(0xFF5B7FCD), size: 22),
             onPressed: controller.onGridPressed,
             padding: EdgeInsets.zero,
           ),
@@ -136,7 +133,7 @@ class ProductHomePage extends GetView<ProductHomeController> {
     return Obx(() => Row(
       children: [
         _buildTab('Recommandations'),
-        const SizedBox(width: 30),
+        const SizedBox(width: 24),
         _buildTab('Catégories'),
       ],
     ));
@@ -152,19 +149,19 @@ class ProductHomePage extends GetView<ProductHomeController> {
           Text(
             title,
             style: TextStyle(
-              color: isSelected ? const Color(0xFF3B5998) : Colors.grey.shade600,
-              fontSize: 16,
+              color: isSelected ? const Color(0xFF5B7FCD) : Colors.grey.shade700,
+              fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           if (isSelected)
             Container(
-              height: 3,
-              width: title == 'Recommandations' ? 140 : 85,
+              height: 2,
+              width: title == 'Recommandations' ? 120 : 80,
               decoration: BoxDecoration(
-                color: const Color(0xFF3B5998),
-                borderRadius: BorderRadius.circular(2),
+                color: const Color(0xFF5B7FCD),
+                borderRadius: BorderRadius.circular(1),
               ),
             ),
         ],
@@ -178,9 +175,9 @@ class ProductHomePage extends GetView<ProductHomeController> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 15,
-        childAspectRatio: 0.73,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.72,
       ),
       itemCount: controller.products.length,
       itemBuilder: (context, index) {
@@ -195,65 +192,61 @@ class ProductHomePage extends GetView<ProductHomeController> {
       onTap: () => controller.onProductTap(product.id),
       child: Container(
         decoration: BoxDecoration(
-          color: product.isNew ? Colors.black : const Color(0xFFF5F5F5),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           children: [
-            // Image section
+            // SECTION IMAGE (partie haute - fond gris clair)
             Expanded(
               child: Container(
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  borderRadius: BorderRadius.circular(15),
+                  color: const Color(0xFFF8F8F8),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Stack(
                   children: [
-                // Image du produit
-                Center(
-                    child: product.imagePath.isNotEmpty
-                        ? Image.asset(
-                            product.imagePath,
-                            width: 400,
-                            height: 400,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                product.name.contains('Watch') ? Icons.watch : Icons.chair,
-                                size: 50,
-                                color: Colors.grey[600],
-                              );
-                            },
-                          )
-                        : Icon(
-                            product.name.contains('Watch') ? Icons.watch : Icons.chair,
-                            size: 50,
-                            color: Colors.grey[600],
-                          ),
-                  ),
-                    // Favorite button
+                    // Image du produit centrée
+                    Center(
+                      child: product.imagePath.isNotEmpty
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                product.imagePath,
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const SizedBox();
+                                },
+                              ),
+                            )
+                          : const SizedBox(),
+                    ),
+                    // Bouton favori (cœur)
                     Positioned(
                       top: 8,
                       right: 8,
                       child: GestureDetector(
                         onTap: () => controller.toggleFavorite(product.id),
                         child: Container(
-                          padding: const EdgeInsets.all(6),
+                          width: 32,
+                          height: 32,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Colors.white.withOpacity(0.95),
                             shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 4,
-                                spreadRadius: 1,
-                              ),
-                            ],
                           ),
                           child: Icon(
                             product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                            color: product.isFavorite ? Colors.red : Colors.grey.shade400,
+                            color: product.isFavorite ? Colors.red : Colors.grey.shade500,
                             size: 18,
                           ),
                         ),
@@ -263,21 +256,31 @@ class ProductHomePage extends GetView<ProductHomeController> {
                 ),
               ),
             ),
-            // Product info section
+            
+            // SECTION NOIRE EN BAS (contient TOUT : New, nom, prix, bouton)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 19, 80, 211),
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Colonne gauche : New + nom + prix
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
+                        // Badge "New"
                         if (product.isNew)
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF3B5998),
-                              borderRadius: BorderRadius.circular(4),
+                              color: const Color.fromARGB(255, 7, 11, 19),
+                              borderRadius: BorderRadius.circular(50),
                             ),
                             child: const Text(
                               'New',
@@ -285,50 +288,55 @@ class ProductHomePage extends GetView<ProductHomeController> {
                                 color: Colors.white,
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
                               ),
                             ),
                           ),
-                        if (product.isNew) const SizedBox(height: 4),
+                        if (product.isNew) const SizedBox(height: 6),
+                        
+                        // Nom du produit
                         Text(
                           product.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: product.isNew ? Colors.white : Colors.black87,
+                            color: Colors.white,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: 3),
+                        
+                        // Prix
                         Text(
                           '\$${product.price.toStringAsFixed(1)}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: product.isNew ? Colors.white : Colors.black,
+                            color: Colors.white,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: product.isNew 
-                          ? Colors.white.withOpacity(0.2) 
-                          : Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: product.isNew 
-                            ? Colors.white.withOpacity(0.3) 
-                            : Colors.grey.shade300,
-                        width: 1,
+                  
+                  const SizedBox(width: 8),
+                  
+                  // Bouton panier (à droite)
+                  GestureDetector(
+                    onTap: () => controller.addToCart(product.id),
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        shape: BoxShape.circle,
                       ),
-                    ),
-                    child: Icon(
-                      Icons.shopping_bag_outlined,
-                      color: product.isNew ? Colors.white : Colors.grey.shade700,
-                      size: 20,
+                      child: const Icon(
+                        Icons.shopping_bag_outlined,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
                   ),
                 ],
@@ -342,19 +350,15 @@ class ProductHomePage extends GetView<ProductHomeController> {
 
   Widget _buildFloatingActionButton() {
     return Container(
-      width: 65,
-      height: 65,
+      width: 60,
+      height: 60,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF4A6FA5), Color(0xFF3B5998)],
-        ),
+        color: const Color(0xFF5B7FCD),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF3B5998).withOpacity(0.4),
-            blurRadius: 12,
+            color: const Color(0xFF5B7FCD).withOpacity(0.3),
+            blurRadius: 8,
             offset: const Offset(0, 4),
           ),
         ],
@@ -365,9 +369,9 @@ class ProductHomePage extends GetView<ProductHomeController> {
           onTap: controller.onScanPressed,
           customBorder: const CircleBorder(),
           child: const Icon(
-            Icons.qr_code_scanner_rounded,
+            Icons.qr_code_scanner,
             color: Colors.white,
-            size: 32,
+            size: 28,
           ),
         ),
       ),
@@ -375,34 +379,22 @@ class ProductHomePage extends GetView<ProductHomeController> {
   }
 
   Widget _buildBottomNavigationBar() {
-    return Obx(() => Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8,
-        color: Colors.white,
-        elevation: 0,
-        child: SizedBox(
-          height: 65,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(Icons.home_rounded, 'Home', 0),
-              _buildNavItem(Icons.search_rounded, 'Search', 1),
-              const SizedBox(width: 50),
-              _buildNavItem(Icons.shopping_cart_rounded, 'Cart', 2),
-              _buildNavItem(Icons.person_rounded, 'Profile', 3),
-            ],
-          ),
+    return Obx(() => BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 8,
+      color: Colors.white,
+      elevation: 8,
+      child: SizedBox(
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(Icons.home, 'Home', 0),
+            _buildNavItem(Icons.search, 'Search', 1),
+            const SizedBox(width: 40),
+            _buildNavItem(Icons.shopping_cart, 'Cart', 2),
+            _buildNavItem(Icons.person, 'Profile', 3),
+          ],
         ),
       ),
     ));
@@ -412,24 +404,24 @@ class ProductHomePage extends GetView<ProductHomeController> {
     final isSelected = controller.currentTabIndex.value == index;
     return InkWell(
       onTap: () => controller.onTabSelected(index),
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(8),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              color: isSelected ? const Color(0xFF3B5998) : Colors.grey.shade500,
-              size: 26,
+              color: isSelected ? const Color(0xFF5B7FCD) : Colors.grey.shade600,
+              size: 24,
             ),
             const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                color: isSelected ? const Color(0xFF3B5998) : Colors.grey.shade500,
+                color: isSelected ? const Color(0xFF5B7FCD) : Colors.grey.shade600,
               ),
             ),
           ],
@@ -438,4 +430,3 @@ class ProductHomePage extends GetView<ProductHomeController> {
     );
   }
 }
-

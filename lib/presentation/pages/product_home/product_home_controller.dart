@@ -18,9 +18,10 @@ class ProductHomeController extends GetxController {
   }
 
   void _loadInitialData() {
-    // Données avec images LOCALES
+    // Données EXACTEMENT comme dans l'image
     products.assignAll([
-      /*Product(
+      // Ligne 1 - 2 Apple Watch
+      Product(
         id: 1, 
         name: 'Apple Watch', 
         price: 180.0,
@@ -35,9 +36,10 @@ class ProductHomeController extends GetxController {
         isFavorite: false,
         isNew: false,
         imagePath: 'assets/images/Products/produit_montre.jpg',
-      ),*/
+      ),
+      // Ligne 2 - 2 Boogly chair (NEW)
       Product(
-        id: 1, 
+        id: 3, 
         name: 'Boogly chair', 
         price: 180.0,
         isFavorite: false,
@@ -45,46 +47,15 @@ class ProductHomeController extends GetxController {
         imagePath: 'assets/images/Products/produit_montre.jpg',
       ),
       Product(
-        id:2, 
+        id: 4, 
         name: 'Boogly chair', 
         price: 180.0,
         isFavorite: false,
         isNew: true,
         imagePath: 'assets/images/Products/produit_montre.jpg',
       ),
+      // Ligne 3 - 2 Apple Watch
       Product(
-        id: 1, 
-        name: 'Boogly chair', 
-        price: 180.0,
-        isFavorite: false,
-        isNew: true,
-        imagePath: 'assets/images/Products/produit_montre.jpg',
-      ),
-      Product(
-        id:2, 
-        name: 'Boogly chair', 
-        price: 180.0,
-        isFavorite: false,
-        isNew: true,
-        imagePath: 'assets/images/Products/produit_montre.jpg',
-      ),
-      Product(
-        id: 1, 
-        name: 'Boogly chair', 
-        price: 180.0,
-        isFavorite: false,
-        isNew: true,
-        imagePath: 'assets/images/Products/produit_montre.jpg',
-      ),
-      Product(
-        id:2, 
-        name: 'Boogly chair', 
-        price: 180.0,
-        isFavorite: false,
-        isNew: true,
-        imagePath: 'assets/images/Products/produit_montre.jpg',
-      ),
-      /*Product(
         id: 5, 
         name: 'Apple Watch', 
         price: 180.0,
@@ -99,7 +70,7 @@ class ProductHomeController extends GetxController {
         isFavorite: false,
         isNew: false,
         imagePath: 'assets/images/Products/produit_montre.jpg',
-      ),*/
+      ),
     ]);
   }
 
