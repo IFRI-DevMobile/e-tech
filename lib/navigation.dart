@@ -7,12 +7,19 @@ import 'package:code_initial/presentation/pages/splashscreen/splash_screen_page.
 import 'package:get/get.dart';
 import 'package:code_initial/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:code_initial/presentation/pages/onboarding/onboarding_controller.dart';
+import 'package:code_initial/presentation/pages/product_home/product_home_controller.dart';
+import 'package:code_initial/presentation/pages/product_home/product_home_page.dart';
 
 class Nav {
   static List<GetPage> routes = [
     GetPage(
       name: Routes.SPLASHSCREEN,
       page: () => SplashScreenPage(),
+    ),
+    GetPage(
+      name: Routes.productHome,
+      page: () => ProductHomePage(),
+      binding: ProductHomeBinding(),
     ),
     GetPage(
       name: Routes.REGISTER,
@@ -45,4 +52,5 @@ class Routes {
   static const LOGIN = '/login';
   static const ONBOARDING = '/onboarding';
   static const SPLASHSCREEN = '/splash_screen';
+  static const productHome = '/product-home';
 }
