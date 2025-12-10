@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 class User {
   final String id;
-  String? name;
-  String? email;
+  String name;
+  String email;
   String? telephone;
   String? ville;
   String? pays;
-
   Color? avatarColor;
 
   User({
@@ -19,4 +18,5 @@ class User {
     this.pays,
     this.avatarColor,
   });
+
 }

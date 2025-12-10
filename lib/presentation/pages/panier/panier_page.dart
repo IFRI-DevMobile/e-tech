@@ -237,7 +237,13 @@ class PanierPage extends GetView<PanierController> {
   Widget _buildNavItem(IconData icon, String label, int index) {
     final isSelected = controller.currentTabIndex.value == index;
     return InkWell(
-      onTap: () => controller.onTabSelected(index),
+      onTap: () {
+        controller.onTabSelected(index);
+        String? route = _getRouteForIndex(index);
+        if (route != null) {
+          Get.toNamed(route);
+        }
+      },
       borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -262,6 +268,21 @@ class PanierPage extends GetView<PanierController> {
         ),
       ),
     );
+  }
+
+  String? _getRouteForIndex(int index) {
+    switch (index) {
+      case 0:
+        return '/home';
+      case 1:
+        return '/search';
+      case 2:
+        return '/panier';
+      case 3:
+        return '/profil';
+      default:
+        return null;
+    }
   }
 }
 

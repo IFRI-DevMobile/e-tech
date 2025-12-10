@@ -24,7 +24,7 @@ class LoginPage extends GetView<LoginController> {
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(50),
                       ),
                       child: const Icon(
                         Icons.arrow_back_ios_new,

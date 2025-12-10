@@ -75,7 +75,7 @@ class LoginController extends GetxController {
       );
 
       // Navigation vers la page principale
-      // Get.offAllNamed(Routes.HOME);
+      Get.offAllNamed(Routes.productHome);
     } catch (e) {
       Get.snackbar(
         'Erreur',
@@ -91,36 +91,7 @@ class LoginController extends GetxController {
 
   // Mot de passe oublié
   Future<void> forgotPassword() async {
-    final email = emailController.text.trim();
-    
-    if (email.isEmpty) {
-      Get.snackbar(
-        'Attention',
-        'Veuillez entrer votre email',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return;
-    }
-
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      
-      Get.snackbar(
-        'Email envoyé',
-        'Vérifiez votre boîte mail',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
-    } catch (e) {
-      Get.snackbar(
-        'Erreur',
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
+    Get.toNamed(Routes.FORGOTTEN_PASSWORD);
   }
 
   // Connexion avec Google
