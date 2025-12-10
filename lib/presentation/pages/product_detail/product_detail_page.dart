@@ -90,10 +90,10 @@ class ProductDetailPage extends StatelessWidget {
     return Container(
       height: 380,
       width: double.infinity,
-      color: const Color(0xFFF5F5F5),
+      color: const Color.fromARGB(255, 244, 0, 0),
       child: Center(
-        child: Image.network(
-          'https://via.placeholder.com/300x300/F5F5F5/808080?text=Smart+Watch',
+        child: Image.asset(
+          'assets/images/Products/produit_montre.png',
           height: 280,
           errorBuilder: (context, error, stackTrace) => Icon(
             Icons.watch,

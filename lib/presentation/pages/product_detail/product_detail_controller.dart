@@ -77,7 +77,6 @@ class ProductDetailController extends GetxController {
     
     switch (index) {
       case 0:
-        // Accueil
         break;
       case 1:
         Get.toNamed('/search');
