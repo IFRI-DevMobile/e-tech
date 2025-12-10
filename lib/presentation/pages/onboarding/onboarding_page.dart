@@ -15,23 +15,25 @@ class OnboardingPage extends GetView<OnboardingController> {
       body: SafeArea(child: OnboardingScreen(
         pages: [
           OnboardingPageModel(
-            title: 'EXPLORE ET\nCHOISIS EN\nTOUTE CONFIANCE',
+            index: 1,
+            title: '',
             description: "",
             imagePath: 'assets/images/ordinateur.jpg',
             buttonText: 'Commençons',
           ),
           OnboardingPageModel(
+            index: 2,
             title: 'Découvre ton type\nd\'équipement',
-            description: "Astuces pour choisir le matériel idéal",
+            description: "Astuces pour choisir le \n matériel idéal",
             imagePath: 'assets/images/ordinateur.jpg',
             buttonText: 'Continue',
           ),
           OnboardingPageModel(
+            index: 3,
             title: 'Trouve de bonnes\noptions sans te\ntromper',
             description: "Rejoins-nous",
-            imagePath: 'assets/images/blanc.png',
             buttonText: 'S inscrire',
-
+            textColor: const Color.fromARGB(255, 9, 67, 165)
           ),
         ],
       )),

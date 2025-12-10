@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:code_initial/navigation.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:pinput/pinput.dart';
 
 
 class OnboardingPageModel {
+  final int index;
   final String title;
   final String description;
   final String imagePath;
@@ -12,9 +14,10 @@ class OnboardingPageModel {
   final Color textColor;
 
   OnboardingPageModel({
+    required this.index, 
     required this.title,
     required this.description,
-    required this.imagePath,
+    this.imagePath ='',
     required this.buttonText,
     this.textColor= Colors.white,
   });
@@ -57,14 +60,16 @@ class _OnboardingPageState extends State<OnboardingScreen> {
                   final item = widget.pages[idx];
                   return Stack(
                       children: [
-                        Positioned.fill( 
-                          child: ClipRRect(
-                            borderRadius: BorderRadiusGeometry.circular(30),
-                            child: Image.asset(
-                              item.imagePath,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                        Positioned.fill(
+                          child: item.index !=3
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: Image.asset(
+                                    item.imagePath,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : Expanded(child: SizedBox()),
                         ),
 
                         Positioned.fill(
@@ -72,44 +77,56 @@ class _OnboardingPageState extends State<OnboardingScreen> {
                             color: Colors.black.withOpacity(0.6),
                           ),
                         ),
-
+                        
                         Positioned.fill(
+                          top: 200,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Padding(
+                              item.index != 1 ?Padding(
                                 padding: EdgeInsets.only(top: 230),
                                 child: Column(
                                   children: [
-                                    Text(
+                                     Text(
                                       item.title,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 36,
-                                        fontWeight: FontWeight.w600,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 34,
+                                        fontWeight: FontWeight.w700,
                                         color: item.textColor,
                                         height: 1.2
                                       ),
                                     ),
 
-                                    SizedBox(height: 10,),
+                                    SizedBox(height: 30,),
 
                                     Text(
                                       item.description,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 16,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 22,
                                         color: item.textColor,
                                       ),
                                     )
                                   ],
                                 ),
+                                ):Padding(
+                                  padding: EdgeInsetsGeometry.only(top: 120, right: 150, left: 10),
+                                  child: Text(
+                                      'EXPLORE ET\nCHOISIS EN\nTOUTE\nCONFIANCE',
+                                      style: GoogleFonts.bebasNeue(
+                                        textStyle: Theme.of(context).textTheme.displayLarge,
+                                        fontSize: 61.5,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      )
+                                    ),
                                 ),
                               
                               SizedBox(height: 20,),
 
                               Padding(
-                                padding: EdgeInsets.only(bottom: 40 ),
+                                padding: EdgeInsets.only(bottom: 0 ),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xFF3655B3),
@@ -128,14 +145,21 @@ class _OnboardingPageState extends State<OnboardingScreen> {
                                       );
                                     }
                                   },
-                                  child: Text(
+                                  child: item.index != 3?Text(
                                     item.buttonText,
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       color: item.textColor,
-                                      fontSize: 16,
+                                      fontSize: 24,
                                       fontWeight: FontWeight.w600,
                                     ),
-                                  ),
+                                  ):Text(
+                                    item.buttonText,
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  )
                                 ),
                               ),
 

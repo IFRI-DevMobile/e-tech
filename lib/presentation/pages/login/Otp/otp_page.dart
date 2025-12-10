@@ -45,7 +45,8 @@ class OtpPage extends GetView<OtpController> {
               ],
             ),
           ),
-          Expanded(
+          SizedBox(height: 100,),
+                  Expanded(
                     child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -61,52 +62,50 @@ class OtpPage extends GetView<OtpController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 20,),
-                          //Champ OTP
-                          Row(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: List.generate(4, (index) {
-                                  return Container(
+                          //Champ OTP (centré)
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(4, (index) {
+                                return Container(
+                                  width: 60,
+                                  height: 60,
+                                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.grey.shade300,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: SizedBox(
                                     width: 60,
                                     height: 60,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors.grey.shade300,
-                                        width: 2,
+                                    child: TextField(
+                                      controller: controller.textControllers[index],
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      maxLength: 1,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                      decoration: const InputDecoration(
+                                        counterText: '',
+                                        border: InputBorder.none,
                                       ),
+                                      onChanged: (value) {
+                                        // mettre à jour le contrôleur et avancer le focus
+                                        controller.setDigits(index, value);
+                                        if (value.isNotEmpty && index < 3) {
+                                          FocusScope.of(context).nextFocus();
+                                        }
+                                      },
                                     ),
-                                    child: SizedBox(
-                                      width: 60,
-                                      height: 60,
-                                      child: TextField(
-                                        controller: controller.textControllers[index],
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        maxLength: 1,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.digitsOnly,
-                                        ],
-                                        decoration: const InputDecoration(
-                                          counterText: '',
-                                          hintText: '1',
-                                          border: InputBorder.none,
-                                        ),
-                                        onChanged: (value) {
-                                          // mettre à jour le contrôleur et avancer le focus
-                                          controller.setDigits(index, value);
-                                          if (value.isNotEmpty && index < 3) {
-                                            FocusScope.of(context).nextFocus();
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              ),
-                            ],
+                                  ),
+                                );
+                              }),
+                            ),
                           ),
                           const SizedBox(height: 10),
                           // Texte d'information
@@ -114,13 +113,7 @@ class OtpPage extends GetView<OtpController> {
                             alignment: Alignment.center,
                             child: Row(
                               children: [
-                                Text("*",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text("Ajoutez le code OTP qui vous a été envoyé sur l’adresse e-mail que vous avez saisie précédemment.",
+                                Text(" * Ajoutez le code OTP qui vous a été envoyé sur \nl’adresse e-mail que vous avez saisie \n précédemment.",
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 14,

@@ -75,7 +75,7 @@ class LoginController extends GetxController {
       );
 
       // Navigation vers la page principale
-      // Get.offAllNamed(Routes.HOME);
+      Get.offAllNamed(Routes.PRODUCT_HOME);
     } catch (e) {
       Get.snackbar(
         'Erreur',

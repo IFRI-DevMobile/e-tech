@@ -45,6 +45,9 @@ class ForgottenPasswordPage extends GetView<ForgottenPasswordController> {
               ],
             ),
           ),
+          
+          const SizedBox(height: 100),
+
           Expanded(
                     child: Container(
                         width: double.infinity,
@@ -95,7 +98,7 @@ class ForgottenPasswordPage extends GetView<ForgottenPasswordController> {
                                     fontSize: 16,
                                   ),
                                 ),
-                                Text(" Nous vous enverrons un message pour définir ou réinitialiser votre nouveau mot de passe.",
+                                Text(" Nous vous enverrons un message pour \n réinitialiser votre nouveau mot de passe.",
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 14,

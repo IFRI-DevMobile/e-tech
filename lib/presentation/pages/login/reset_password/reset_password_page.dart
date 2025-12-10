@@ -34,7 +34,7 @@ class ResetPasswordPage extends GetView <ResetPasswordController>{
                   ),
                   const SizedBox(width: 16),
                   const Text(
-                    "Réinitialiser le mot de passe",
+                    "Réinitialiser le \n mot de passe",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -45,7 +45,7 @@ class ResetPasswordPage extends GetView <ResetPasswordController>{
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 100),
 
             // Carte blanche avec formulaire
             Expanded(

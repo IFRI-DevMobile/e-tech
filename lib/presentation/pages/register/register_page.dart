@@ -45,7 +45,7 @@ class RegisterPage extends GetView<RegisterController> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 100),
 
             // Carte blanche avec formulaire
             Expanded(
