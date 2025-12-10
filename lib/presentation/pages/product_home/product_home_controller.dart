@@ -10,6 +10,7 @@ class ProductHomeController extends GetxController {
   
   // Listes observables
   final products = <Product>[].obs;
+  final categories = <Map<String, dynamic>>[].obs;
 
   @override
   void onInit() {
@@ -74,7 +75,30 @@ class ProductHomeController extends GetxController {
     ]);
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    _loadCategories();
+  }
+
+  void _loadCategories() {
+    categories.assignAll([
+      {'id': 1, 'name': 'Ordinateurs', 'icon': Icons.computer},
+      {'id': 2, 'name': 'Téléphones', 'icon': Icons.phone_iphone},
+      {'id': 3, 'name': 'Tablettes', 'icon': Icons.tablet},
+      {'id': 4, 'name': 'Accessoires', 'icon': Icons.headphones},
+      {'id': 5, 'name': 'Gaming', 'icon': Icons.sports_esports},
+      {'id': 6, 'name': 'Réseau', 'icon': Icons.router},
+      {'id': 7, 'name': 'Stockage', 'icon': Icons.sd_storage},
+      {'id': 8, 'name': 'Périphériques', 'icon': Icons.keyboard},
+    ]);
+  }
+
   // Actions
+  void selectTab(String tab) {
+    selectedTab.value = tab;
+  }
+
   void toggleFavorite(int productId) {
     final index = products.indexWhere((p) => p.id == productId);
     if (index != -1) {
@@ -122,10 +146,6 @@ class ProductHomeController extends GetxController {
       colorText: Colors.white,
       margin: const EdgeInsets.all(10),
     );
-  }
-
-  void selectTab(String tab) {
-    selectedTab.value = tab;
   }
 }
 

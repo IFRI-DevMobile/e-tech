@@ -169,22 +169,97 @@ class ProductHomePage extends GetView<ProductHomeController> {
     );
   }
 
-  Widget _buildProductsGrid() {
-    return Obx(() => GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        childAspectRatio: 0.72,
+  Widget _buildCategoryCard(Map<String, dynamic> category) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
       ),
-      itemCount: controller.products.length,
-      itemBuilder: (context, index) {
-        final product = controller.products[index];
-        return _buildProductCard(product);
-      },
-    ));
+      child: InkWell(
+        onTap: () {
+          // Action lors du clic sur une catégorie
+          Get.snackbar(
+            category['name'],
+            'Catégorie sélectionnée',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xFF5B7FCD),
+            colorText: Colors.white,
+          );
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF5B7FCD), Color(0xFF2C4A9E)],
+            ),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                category['icon'] as IconData? ?? Icons.category,
+                size: 40,
+                color: Colors.white,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                category['name'] as String? ?? 'Catégorie',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductsGrid() {
+    return Obx(() {
+      if (controller.selectedTab.value == 'Catégories') {
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 1.1,
+          ),
+          itemCount: controller.categories.length,
+          itemBuilder: (context, index) {
+            final category = controller.categories[index];
+            return _buildCategoryCard(category);
+          },
+        );
+      } else {
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 0.72,
+          ),
+          itemCount: controller.products.length,
+          itemBuilder: (context, index) {
+            final product = controller.products[index];
+            return _buildProductCard(product);
+          },
+        );
+      }
+    });
   }
 
   Widget _buildProductCard(Product product) {

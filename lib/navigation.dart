@@ -11,6 +11,8 @@ import 'package:code_initial/presentation/pages/product_home/product_home_contro
 import 'package:code_initial/presentation/pages/product_home/product_home_page.dart';
 import 'package:code_initial/presentation/pages/product_detail/product_detail_page.dart';
 import 'package:code_initial/presentation/pages/product_detail/product_detail_binding.dart';
+import 'package:code_initial/presentation/pages/category/category_page.dart';
+import 'package:code_initial/presentation/pages/category/category_binding.dart';
 
 class Nav {
   static List<GetPage> routes = [
@@ -45,6 +47,11 @@ class Nav {
       binding: ProductDetailBinding(),
     ),
     // AJOUTEZ CES 3 ROUTES POUR LE MENU BAS
+    GetPage(
+      name: Routes.CATEGORIES,
+      page: () => const CategoryPage(),
+      binding: CategoryBinding(),
+    ),
     GetPage(
       name: Routes.SEARCH,
       page: () => Scaffold(
@@ -81,8 +88,8 @@ class Routes {
   static const SPLASHSCREEN = '/splash_screen';
   static const productHome = '/product-home';
   static const PRODUCT_DETAIL = '/product-detail';
-  // AJOUTEZ CES 3 LIGNES
   static const SEARCH = '/search';
   static const CART = '/cart';
   static const PROFILE = '/profile';
+  static const CATEGORIES = '/categories';
 }
