@@ -364,7 +364,8 @@ class ProductHomePage extends GetView<ProductHomeController> {
         ],
       ),
       child: Material(
-        color: Colors.transparent,
+        color: Color.fromARGB(26, 0, 0, 255),
+        shape: const CircleBorder(),
         child: InkWell(
           onTap: controller.onScanPressed,
           customBorder: const CircleBorder(),
@@ -439,7 +440,7 @@ class ProductHomePage extends GetView<ProductHomeController> {
   String? _getRouteForIndex(int index) {
     switch (index) {
       case 0:
-        return '/home';
+        return '/product-home';
       case 1:
         return '/search';
       case 2:
