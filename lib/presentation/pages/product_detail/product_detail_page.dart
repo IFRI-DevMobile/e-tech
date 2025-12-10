@@ -88,13 +88,13 @@ class ProductDetailPage extends StatelessWidget {
 
   Widget _buildProductImage() {
     return Container(
-      height: 380,
+      height: 280,
       width: double.infinity,
-      color: const Color.fromARGB(255, 244, 0, 0),
+      color: const Color.fromARGB(255, 255, 255, 255),
       child: Center(
         child: Image.asset(
-          'assets/images/Products/produit_montre.png',
-          height: 280,
+          'assets/images/Products/produit_montre.jpg',
+          height: 380,
           errorBuilder: (context, error, stackTrace) => Icon(
             Icons.watch,
             size: 200,
