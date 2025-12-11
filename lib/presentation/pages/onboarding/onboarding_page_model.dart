@@ -74,7 +74,7 @@ class _OnboardingPageState extends State<OnboardingScreen>{
 
                         Positioned.fill(
                           child: Container(
-                            color: Colors.black.withOpacity(0.6),
+                            color: item.index !=3? Colors.black.withOpacity(0.6):Colors.white.withOpacity(0.6),
                           ),
                         ),
                         
@@ -131,9 +131,9 @@ class _OnboardingPageState extends State<OnboardingScreen>{
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xFF3655B3),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
+                                      borderRadius: BorderRadius.circular(50),
                                     ),
-                                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                                   ),
                                   onPressed: () {
                                     if (idx == widget.pages.length -1){
