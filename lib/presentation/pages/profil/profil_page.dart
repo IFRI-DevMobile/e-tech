@@ -63,11 +63,17 @@ class ProfilPage extends GetView<ProfilController> {
                       SizedBox(height: 20,),
                       Column(
                         children: [
-                          InfoField('Name'),
-                          InfoField('Email'),
-                          InfoField('Téléphone'),
-                          InfoField('Ville'),
-                          InfoField('Pays'),
+                          InfoField(label: 'Name',controller: controller.emailController,enabled: controller.isEditing.value),
+                          SizedBox(height: 8,),
+                          InfoField(label: 'Email',controller: controller.emailController,enabled: controller.isEditing.value),
+                          SizedBox(height: 8,),
+                          InfoField(label: 'Téléphone',controller: controller.emailController,enabled: controller.isEditing.value),
+                          SizedBox(height: 8,),
+                          InfoField(label: 'Ville',controller: controller.emailController,enabled: controller.isEditing.value),
+                          SizedBox(height: 8,),
+                          InfoField(label: 'Pays',controller: controller.emailController,enabled: controller.isEditing.value),
+                          SizedBox(height: 30,),
+                          ActionsButton(),
                         ],
                       )
                     ],
@@ -84,9 +90,11 @@ class ProfilPage extends GetView<ProfilController> {
     );
   }
 
-  Widget InfoField(
-    String label,
-  ) {
+  Widget InfoField({
+    required String label,
+    required TextEditingController controller,
+    required bool enabled,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -102,17 +110,155 @@ class ProfilPage extends GetView<ProfilController> {
         SizedBox(height: 6,),
 
         TextField(
+          controller: controller,
+          enabled: enabled,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
+            filled: true,
+            fillColor: enabled ? Colors.white : Colors.grey[50],
             contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: Color(0xFF3655B3),
+                width: 1.5,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: Color(0xFF3655B3),
+                width: 2,
+              ),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: Colors.grey[300]!,
+                width: 1.5,
+              ),
+            ),
           ),
-          style: TextStyle(fontSize: 14),
+          style: TextStyle(
+            fontSize: 14,
+            color: enabled ? Colors.black87 : Colors.grey[600],
+          ),
         ),
       ],
     );
+  }
+
+  Widget ActionsButton() {
+    return Obx(() {
+      if(controller.isEditing.value) {
+        return Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: controller.isEditing.value
+                  ? null
+                  : controller.toogleEditMode,
+                style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  side: BorderSide(color: Color(0xFF3655B3), width: 2),
+                  shape:RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ), 
+                ),  
+                child: Text(
+                  'Annuler',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF3655B3),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 12,),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: controller.isEditing.value
+                  ? null
+                  : controller.saveProfil,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF3655B3),
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape:RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 0, 
+                ),
+                child: controller.isEditing.value
+                  ? SizedBox(
+                    height: 20,width: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                  : Text(
+                    'Enregistrer',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF3655B3),
+                    ),
+                  ), 
+              ),
+            ),
+          ],
+        );
+      }else {
+        return Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: controller.toogleEditMode,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF3655B3),
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape:RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 0, 
+                ),
+                child: Text(
+                  'Modifier',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ), 
+              ),
+            ),
+            SizedBox(height: 12,),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: controller.deconnexion,
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  side: BorderSide(color: Colors.red, width: 2),
+                  shape:RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  'Déconnecter',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.red,
+                  ),
+                ), 
+              ),
+            ),
+          ],
+        );
+      }
+    });
   }
 
   Widget _buildFloatingActionButton() {
@@ -207,7 +353,7 @@ class ProfilPage extends GetView<ProfilController> {
   String? _getRouteForIndex(int index) {
     switch (index) {
       case 0:
-        return '/product-home';
+        return '/home';
       case 1:
         return '/search';
       case 2:

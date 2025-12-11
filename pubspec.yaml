@@ -31,5 +31,11 @@ flutter:
     - assets/images/google.png
     - assets/images/apple.png
     - assets/images/facebook.jpg
+    - assets/images/hp.jpg
+    - assets/images/smartwatch.jpg
+    - assets/images/téléviseur.jpg
     - assets/images/Products/produit_montre.jpg
     - assets/images/Products/Pro.jpg
+    - assets/images/iphone.jpg
+    - assets/images/samsung.jpg
+    - assets/images/macbook.jpg

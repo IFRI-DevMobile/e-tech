@@ -35,7 +35,7 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingScreen> {
+class _OnboardingPageState extends State<OnboardingScreen>{
   int _currentPage = 0;
   final PageController _pageController = PageController(initialPage: 0);
 
@@ -126,7 +126,7 @@ class _OnboardingPageState extends State<OnboardingScreen> {
                               SizedBox(height: 20,),
 
                               Padding(
-                                padding: EdgeInsets.only(bottom: 0 ),
+                                padding: EdgeInsets.only(bottom: 1 ),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xFF3655B3),

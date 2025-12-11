@@ -15,8 +15,9 @@ import 'package:code_initial/presentation/pages/profil/profil_controller.dart';
 import 'package:code_initial/presentation/pages/profil/profil_page.dart';
 import 'package:code_initial/presentation/pages/register/register_controller.dart';
 import 'package:code_initial/presentation/pages/register/register_page.dart';
+import 'package:code_initial/presentation/pages/search/search_controller.dart';
+import 'package:code_initial/presentation/pages/search/search_page.dart';
 import 'package:code_initial/presentation/pages/splashscreen/splash_screen_page.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:code_initial/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:code_initial/presentation/pages/onboarding/onboarding_controller.dart';
@@ -86,13 +87,18 @@ class Nav {
       page: () => const CategoryPage(),
       binding: CategoryBinding(),
     ),
-    GetPage(
+    /*GetPage(
       name: Routes.SEARCH,
       page: () => Scaffold(
         appBar: AppBar(title: const Text('Recherche')),
         body: const Center(child: Text('Page Recherche')),
       ),
-    ),
+    ),*/
+     GetPage(
+      name: Routes.SEARCH,
+     page: ()=> SearchPage(),
+     binding: SearchBinding(),
+     ),
   ];
 }
 
