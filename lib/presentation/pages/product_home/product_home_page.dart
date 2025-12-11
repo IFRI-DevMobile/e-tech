@@ -149,7 +149,7 @@ class ProductHomePage extends GetView<ProductHomeController> {
           Text(
             title,
             style: TextStyle(
-              color: isSelected ? const Color(0xFF5B7FCD) : Colors.grey.shade700,
+              color: isSelected ? const Color(0xFF3655B3) : Colors.grey.shade700,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
@@ -160,7 +160,7 @@ class ProductHomePage extends GetView<ProductHomeController> {
               height: 2,
               width: title == 'Recommandations' ? 120 : 80,
               decoration: BoxDecoration(
-                color: const Color(0xFF5B7FCD),
+                color: const Color(0xFF3655B3),
                 borderRadius: BorderRadius.circular(1),
               ),
             ),
@@ -169,22 +169,97 @@ class ProductHomePage extends GetView<ProductHomeController> {
     );
   }
 
-  Widget _buildProductsGrid() {
-    return Obx(() => GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        childAspectRatio: 0.72,
+  Widget _buildCategoryCard(Map<String, dynamic> category) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
       ),
-      itemCount: controller.products.length,
-      itemBuilder: (context, index) {
-        final product = controller.products[index];
-        return _buildProductCard(product);
-      },
-    ));
+      child: InkWell(
+        onTap: () {
+          // Action lors du clic sur une catégorie
+          Get.snackbar(
+            category['name'],
+            'Catégorie sélectionnée',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xFF3655B3),
+            colorText: Colors.white,
+          );
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF5B7FCD), Color(0xFF3655B3)],
+            ),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                category['icon'] as IconData? ?? Icons.category,
+                size: 40,
+                color: Colors.white,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                category['name'] as String? ?? 'Catégorie',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductsGrid() {
+    return Obx(() {
+      if (controller.selectedTab.value == 'Catégories') {
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 1.1,
+          ),
+          itemCount: controller.categories.length,
+          itemBuilder: (context, index) {
+            final category = controller.categories[index];
+            return _buildCategoryCard(category);
+          },
+        );
+      } else {
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 0.72,
+          ),
+          itemCount: controller.products.length,
+          itemBuilder: (context, index) {
+            final product = controller.products[index];
+            return _buildProductCard(product);
+          },
+        );
+      }
+    });
   }
 
   Widget _buildProductCard(Product product) {
@@ -404,13 +479,7 @@ class ProductHomePage extends GetView<ProductHomeController> {
   Widget _buildNavItem(IconData icon, String label, int index) {
     final isSelected = controller.currentTabIndex.value == index;
     return InkWell(
-      onTap: () {
-        controller.onTabSelected(index);
-        String? route = _getRouteForIndex(index);
-        if (route != null) {
-          Get.toNamed(route);
-        }
-      },
+      onTap: () => controller.onTabSelected(index),
       borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -435,20 +504,5 @@ class ProductHomePage extends GetView<ProductHomeController> {
         ),
       ),
     );
-  }
-
-  String? _getRouteForIndex(int index) {
-    switch (index) {
-      case 0:
-        return '/product-home';
-      case 1:
-        return '/search';
-      case 2:
-        return '/panier';
-      case 3:
-        return '/profil';
-      default:
-        return null;
-    }
   }
 }

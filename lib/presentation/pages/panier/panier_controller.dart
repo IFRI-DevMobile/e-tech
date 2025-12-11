@@ -17,19 +17,19 @@ class PanierController extends GetxController {
     panierpage.assignAll([
       PanierPageModel(
         nom: 'Smart watch',
-        image: 'assets/images/smartwatch.jpg',
+        image: 'assets/images/Products/produit_montre.jpg',
         prix: 180.0,
         quantite: 1
       ),
       PanierPageModel(
         nom: 'Téléviseur Qc8',
-        image: 'assets/images/téléviseur.jpg',
+        image: 'assets/images/Products/produit_montre.jpg',
         prix: 2300.0,
         quantite: 1
       ),
       PanierPageModel(
         nom: 'Ordinateur hp',
-        image: 'assets/images/hp.jpg',
+        image: 'assets/images/Products/produit_montre.jpg',
         prix: 465.0,
         quantite: 2
       ),
