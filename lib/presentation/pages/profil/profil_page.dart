@@ -9,8 +9,13 @@ class ProfilPage extends GetView<ProfilController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF3655B3),
-      body: SafeArea(
-        child: Column(
+      body:Obx(() {
+        if (controller.isLoading.value && controller.userProfile.value == null) {
+          return const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          );
+        }
+        return Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -63,15 +68,15 @@ class ProfilPage extends GetView<ProfilController> {
                       SizedBox(height: 20,),
                       Column(
                         children: [
-                          InfoField(label: 'Name',controller: controller.emailController,enabled: controller.isEditing.value),
+                          InfoField(label: 'Name',controller: controller.nameController,enabled: controller.isEditing.value),
                           SizedBox(height: 8,),
                           InfoField(label: 'Email',controller: controller.emailController,enabled: controller.isEditing.value),
                           SizedBox(height: 8,),
-                          InfoField(label: 'Téléphone',controller: controller.emailController,enabled: controller.isEditing.value),
+                          InfoField(label: 'Téléphone',controller: controller.telephoneController,enabled: controller.isEditing.value),
                           SizedBox(height: 8,),
-                          InfoField(label: 'Ville',controller: controller.emailController,enabled: controller.isEditing.value),
+                          InfoField(label: 'Ville',controller: controller.villeController,enabled: controller.isEditing.value),
                           SizedBox(height: 8,),
-                          InfoField(label: 'Pays',controller: controller.emailController,enabled: controller.isEditing.value),
+                          InfoField(label: 'Pays',controller: controller.paysController,enabled: controller.isEditing.value),
                           SizedBox(height: 30,),
                           ActionsButton(),
                         ],
@@ -82,8 +87,9 @@ class ProfilPage extends GetView<ProfilController> {
               )
               ),
           ],
-        )
-        ),
+        );
+      }),
+      
         floatingActionButton: _buildFloatingActionButton(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: _buildBottomNavigationBar(),
@@ -154,7 +160,7 @@ class ProfilPage extends GetView<ProfilController> {
           children: [
             Expanded(
               child: OutlinedButton(
-                onPressed: controller.isEditing.value
+                onPressed: controller.isLoading.value
                   ? null
                   : controller.toogleEditMode,
                 style: OutlinedButton.styleFrom(
@@ -177,7 +183,7 @@ class ProfilPage extends GetView<ProfilController> {
             SizedBox(width: 12,),
             Expanded(
               child: ElevatedButton(
-                onPressed: controller.isEditing.value
+                onPressed: controller.isLoading.value
                   ? null
                   : controller.saveProfil,
                 style: ElevatedButton.styleFrom(
@@ -188,7 +194,7 @@ class ProfilPage extends GetView<ProfilController> {
                   ),
                   elevation: 0, 
                 ),
-                child: controller.isEditing.value
+                child: controller.isLoading.value
                   ? SizedBox(
                     height: 20,width: 20,
                     child: CircularProgressIndicator(
@@ -201,7 +207,7 @@ class ProfilPage extends GetView<ProfilController> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF3655B3),
+                      color: Colors.white,
                     ),
                   ), 
               ),

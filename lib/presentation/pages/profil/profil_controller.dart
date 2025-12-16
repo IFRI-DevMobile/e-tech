@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 
 class ProfilController extends GetxController {
 
-  // final RxList <User> user = <User> [].obs;
+  final Rx<User?> userProfile = Rx<User?>(null);
+
   final currentTabIndex = 0.obs;
+  final RxBool isLoading = false.obs;
   final RxBool isEditing = false.obs;
 
   late TextEditingController nameController;
@@ -44,23 +46,46 @@ class ProfilController extends GetxController {
     paysController.dispose();
   }
 
-  Rx<User> user = User(
-    id:'1',
-    name:'Joe',
-    email: 'example@gmail.com',
-    telephone: '01 51 51 13 10',
-    ville: 'Cotonou',
-    pays: 'Bénin',
-    avatarColor: Colors.tealAccent,
-  ).obs; 
+  Future<void> user() async {
+    try {
+      isLoading.value = true;
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      // Données de test
+      userProfile.value = User(
+        id:'1',
+        name:'Joe',
+        email: 'joedoe@gmail.com',
+        telephone: '01 97 10 11 12',
+        ville: 'Cotonou',
+        pays: 'Bénin',
+        avatarColor: Colors.tealAccent,
+      );
+
+      updateProfil();
+    } catch (e) {
+      Get.snackbar(
+        'Erreur',
+        'Impossible de charger le profil',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
 
-  void updateProfil (){
-    nameController.text = user.value.name;
-    emailController.text = user.value.email;
-    telephoneController.text = user.value.telephone ?? '';
-    villeController.text = user.value.ville ?? '';
-    paysController.text = user.value.pays ?? '';
+  void updateProfil () {
+    if(userProfile.value != null) {
+      nameController.text = userProfile.value!.name;
+      emailController.text = userProfile.value!.email;
+      telephoneController.text = userProfile.value?.telephone ?? '';
+      villeController.text = userProfile.value?.ville ?? '';
+      paysController.text = userProfile.value?.pays ?? '';
+    }
   }
 
   void toogleEditMode() {
@@ -72,7 +97,10 @@ class ProfilController extends GetxController {
     }
   }
 
-  void saveProfil() {
+  Future<void> saveProfil() async {
+    if (userProfile.value == null) return;
+
+    //validation
     if(nameController.text.trim().isEmpty){
       Get.snackbar(
         'Erreur',
@@ -95,13 +123,17 @@ class ProfilController extends GetxController {
     }
 
     try{
-      user.value.name = nameController.text.trim();
-      user.value.email = emailController.text.trim();
-      user.value.telephone = telephoneController.text.trim();
-      user.value.ville = villeController.text.trim();
-      user.value.pays = paysController.text.trim();
+      isLoading.value = true;
 
-      user.refresh();
+      userProfile.value!.name = nameController.text.trim();
+      userProfile.value!.email = emailController.text.trim();
+      userProfile.value!.telephone = telephoneController.text.trim();
+      userProfile.value!.ville = villeController.text.trim();
+      userProfile.value!.pays = paysController.text.trim();
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      userProfile.refresh();
       isEditing.value = false;
 
       Get.snackbar(
@@ -120,6 +152,8 @@ class ProfilController extends GetxController {
         backgroundColor: Colors.red.withOpacity(0.1),
         colorText: Colors.red,
       );
+    }finally {
+      isLoading.value = false;
     }
   }
 

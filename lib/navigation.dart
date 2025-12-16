@@ -87,13 +87,6 @@ class Nav {
       page: () => const CategoryPage(),
       binding: CategoryBinding(),
     ),
-    /*GetPage(
-      name: Routes.SEARCH,
-      page: () => Scaffold(
-        appBar: AppBar(title: const Text('Recherche')),
-        body: const Center(child: Text('Page Recherche')),
-      ),
-    ),*/
      GetPage(
       name: Routes.SEARCH,
      page: ()=> SearchPage(),
