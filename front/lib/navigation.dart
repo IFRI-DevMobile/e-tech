@@ -25,6 +25,9 @@ import 'package:code_initial/presentation/pages/product_home/product_home_contro
 import 'package:code_initial/presentation/pages/product_home/product_home_page.dart';
 import 'package:code_initial/presentation/pages/login/forgotten_password/forgotten_password_page.dart';
 import 'package:code_initial/presentation/pages/login/forgotten_password/forgotten_password_controller.dart';
+import 'package:code_initial/presentation/pages/checkout/checkout_page.dart';
+import 'package:code_initial/presentation/pages/checkout/checkout_controller.dart';
+import 'package:code_initial/presentation/pages/order_confirmation/order_confirmation_page.dart';
 
 class Nav {
   static List<GetPage> routes = [
@@ -96,9 +99,18 @@ class Nav {
     ),*/
      GetPage(
       name: Routes.SEARCH,
-     page: ()=> SearchPage(),
-     binding: SearchBinding(),
-     ),
+      page: () => SearchPage(),
+      binding: SearchBinding(),
+    ),
+    GetPage(
+      name: Routes.CHECKOUT,
+      page: () => CheckoutPage(),
+      binding: CheckoutBinding(),
+    ),
+    GetPage(
+      name: Routes.ORDER_CONFIRMATION,
+      page: () => OrderConfirmationPage(),
+    ),
   ];
 }
 
@@ -123,4 +135,6 @@ class Routes {
   static const RESET_PASSWORD = '/reset_password';
   static const PANIER = '/panier';
   static const PROFIL = '/profil';
+  static const CHECKOUT = '/checkout';
+  static const ORDER_CONFIRMATION = '/order-confirmation';
 }

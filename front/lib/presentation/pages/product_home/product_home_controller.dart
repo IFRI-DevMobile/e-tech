@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../domain/models/category_model.dart';
+import '../../../domain/models/product_model.dart';
 import '../api_service/store_repository.dart';
 
 class ProductHomeController extends GetxController {
@@ -12,7 +14,7 @@ class ProductHomeController extends GetxController {
 
   // Listes observables
   final products = <Product>[].obs;
-  final categories = <Map<String, dynamic>>[].obs;
+  final categories = <Category>[].obs;
 
   @override
   void onInit() {
@@ -54,14 +56,14 @@ class ProductHomeController extends GetxController {
 
   void _loadCategories() {
     categories.assignAll([
-      {'id': 1, 'name': 'Ordinateurs', 'icon': Icons.computer},
-      {'id': 2, 'name': 'Téléphones', 'icon': Icons.phone_iphone},
-      {'id': 3, 'name': 'Tablettes', 'icon': Icons.tablet},
-      {'id': 4, 'name': 'Accessoires', 'icon': Icons.headphones},
-      {'id': 5, 'name': 'Gaming', 'icon': Icons.sports_esports},
-      {'id': 6, 'name': 'Réseau', 'icon': Icons.router},
-      {'id': 7, 'name': 'Stockage', 'icon': Icons.sd_storage},
-      {'id': 8, 'name': 'Périphériques', 'icon': Icons.keyboard},
+      Category(id: 1, name: 'Ordinateurs', icon: 'computer'),
+      Category(id: 2, name: 'Téléphones', icon: 'phone_iphone'),
+      Category(id: 3, name: 'Tablettes', icon: 'tablet'),
+      Category(id: 4, name: 'Accessoires', icon: 'headphones'),
+      Category(id: 5, name: 'Gaming', icon: 'sports_esports'),
+      Category(id: 6, name: 'Réseau', icon: 'router'),
+      Category(id: 7, name: 'Stockage', icon: 'sd_storage'),
+      Category(id: 8, name: 'Périphériques', icon: 'keyboard'),
     ]);
   }
 

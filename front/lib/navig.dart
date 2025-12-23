@@ -13,6 +13,8 @@ import 'package:code_initial/presentation/pages/product_detail/product_detail_pa
 import 'package:code_initial/presentation/pages/product_detail/product_detail_binding.dart';
 import 'package:code_initial/presentation/pages/category/category_page.dart';
 import 'package:code_initial/presentation/pages/category/category_binding.dart';
+import 'package:code_initial/presentation/pages/checkout/checkout_page.dart';
+import 'package:code_initial/presentation/pages/checkout/checkout_controller.dart';
 
 class Nav {
   static List<GetPage> routes = [
@@ -67,6 +69,11 @@ class Nav {
       ),
     ),
     GetPage(
+      name: Routes.CHECKOUT,
+      page: () => CheckoutPage(),
+      binding: CheckoutBinding(),
+    ),
+    GetPage(
       name: Routes.PROFILE,
       page: () => Scaffold(
         appBar: AppBar(title: const Text('Profil')),
@@ -92,5 +99,6 @@ class Routes {
   static const CATEGORIES = '/categories';
   static const CART = '/cart';
   static const PROFILE = '/profile';
+  static const CHECKOUT = '/checkout';
   
 }

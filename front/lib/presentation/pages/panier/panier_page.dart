@@ -134,19 +134,32 @@ class PanierPage extends GetView<PanierController> {
 
             SizedBox(height: 20,),
 
-            Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 14, horizontal: 80),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(40)
-                ),
-                child: Text(
-                  'Soumettre',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+            GestureDetector(
+              onTap: () {
+                if (controller.panierpage.isNotEmpty) {
+                  Get.toNamed('/checkout');
+                } else {
+                  Get.snackbar(
+                    'Panier vide',
+                    'Votre panier est vide',
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                }
+              },
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 14, horizontal: 80),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(40)
+                  ),
+                  child: Text(
+                    'Soumettre',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
