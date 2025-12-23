@@ -10,6 +10,12 @@ class ProductDetailPage extends GetView<ProductDetailController> {
     return GetBuilder<ProductDetailController>(
       init: ProductDetailController(),
       builder: (controller) {
+        if (controller.isLoading.value == true) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (controller.product == null) {
+          return Scaffold(body: Center(child: Text("Produit introuvable")));
+        }
         return Scaffold(
           backgroundColor: const Color(0xFFF5F5F5),
           appBar: _buildAppBar(),
@@ -48,7 +54,8 @@ class ProductDetailPage extends GetView<ProductDetailController> {
             ),
           ),
           floatingActionButton: _buildFloatingActionButton(controller),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: _buildBottomNavigationBar(),
         );
       },
@@ -66,20 +73,20 @@ class ProductDetailPage extends GetView<ProductDetailController> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back_ios_new,
-                        color: Color(0xFF3655B3),
-                        size: 20,
-                      ),
-                    ),
-                  ),
+          onTap: () => Get.back(),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Color(0xFF3655B3),
+              size: 20,
+            ),
+          ),
+        ),
       ),
       actions: [
         Container(
@@ -89,7 +96,8 @@ class ProductDetailPage extends GetView<ProductDetailController> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: IconButton(
-            icon: const Icon(Icons.favorite_border, color: Colors.black, size: 22),
+            icon: const Icon(Icons.favorite_border,
+                color: Colors.black, size: 22),
             onPressed: () {},
           ),
         ),
@@ -103,8 +111,8 @@ class ProductDetailPage extends GetView<ProductDetailController> {
       width: double.infinity,
       color: const Color.fromARGB(255, 255, 255, 255),
       child: Center(
-        child: Image.asset(
-          'assets/images/Products/produit_montre.jpg',
+        child: Image.network(
+          controller.product.image_url,
           height: 380,
           errorBuilder: (context, error, stackTrace) => Icon(
             Icons.watch,
@@ -125,7 +133,7 @@ class ProductDetailPage extends GetView<ProductDetailController> {
           children: [
             Expanded(
               child: Text(
-                controller.productName,
+                controller.product.name,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -183,8 +191,10 @@ class ProductDetailPage extends GetView<ProductDetailController> {
                 bottomLeft: Radius.circular(20),
               ),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: const Icon(Icons.remove, size: 18, color: Colors.black54),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child:
+                    const Icon(Icons.remove, size: 18, color: Colors.black54),
               ),
             ),
           ),
@@ -210,8 +220,10 @@ class ProductDetailPage extends GetView<ProductDetailController> {
                 bottomRight: Radius.circular(20),
               ),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: const Icon(Icons.add, size: 18, color: Color(0xFF3655B3)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child:
+                    const Icon(Icons.add, size: 18, color: Color(0xFF3655B3)),
               ),
             ),
           ),
@@ -226,8 +238,8 @@ class ProductDetailPage extends GetView<ProductDetailController> {
       children: [
         Text(
           controller.isExpanded.value
-              ? controller.fullDescription 
-              : controller.shortDescription,
+              ? controller.product.description
+              : controller.product.description,
           style: TextStyle(
             fontSize: 14,
             color: Colors.grey[700],
@@ -241,7 +253,9 @@ class ProductDetailPage extends GetView<ProductDetailController> {
             controller.update();
           },
           child: Text(
-            controller.isExpanded.value ? 'Voir moins . . .' : 'Voir plus . . .',
+            controller.isExpanded.value
+                ? 'Voir moins . . .'
+                : 'Voir plus . . .',
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -283,7 +297,9 @@ class ProductDetailPage extends GetView<ProductDetailController> {
                     color: isSelected ? const Color(0xFF3655B3) : Colors.white,
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: isSelected ? const Color(0xFF3655B3) : const Color(0xFFE0E0E0),
+                      color: isSelected
+                          ? const Color(0xFF3655B3)
+                          : const Color(0xFFE0E0E0),
                       width: 1.5,
                     ),
                   ),
@@ -357,7 +373,8 @@ class ProductDetailPage extends GetView<ProductDetailController> {
       ),
       child: Row(
         children: [
-          const Icon(Icons.shopping_cart_outlined, color: Colors.white, size: 24),
+          const Icon(Icons.shopping_cart_outlined,
+              color: Colors.white, size: 24),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -416,7 +433,8 @@ class ProductDetailPage extends GetView<ProductDetailController> {
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
+                child: const Icon(Icons.arrow_forward,
+                    color: Colors.white, size: 20),
               ),
             ),
           ),
@@ -459,24 +477,24 @@ class ProductDetailPage extends GetView<ProductDetailController> {
 
   Widget _buildBottomNavigationBar() {
     return Obx(() => BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      notchMargin: 8,
-      color: Colors.white,
-      elevation: 8,
-      child: SizedBox(
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.home, 'Home', 0),
-            _buildNavItem(Icons.search, 'Search', 1),
-            const SizedBox(width: 40),
-            _buildNavItem(Icons.shopping_cart, 'Cart', 2),
-            _buildNavItem(Icons.person, 'Profile', 3),
-          ],
-        ),
-      ),
-    ));
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 8,
+          color: Colors.white,
+          elevation: 8,
+          child: SizedBox(
+            height: 60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildNavItem(Icons.home, 'Home', 0),
+                _buildNavItem(Icons.search, 'Search', 1),
+                const SizedBox(width: 40),
+                _buildNavItem(Icons.shopping_cart, 'Cart', 2),
+                _buildNavItem(Icons.person, 'Profile', 3),
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _buildNavItem(IconData icon, String label, int index) {
@@ -497,7 +515,8 @@ class ProductDetailPage extends GetView<ProductDetailController> {
           children: [
             Icon(
               icon,
-              color: isSelected ? const Color(0xFF3655B3) : Colors.grey.shade600,
+              color:
+                  isSelected ? const Color(0xFF3655B3) : Colors.grey.shade600,
               size: 24,
             ),
             const SizedBox(height: 4),
@@ -506,7 +525,8 @@ class ProductDetailPage extends GetView<ProductDetailController> {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                color: isSelected ? const Color(0xFF3655B3) : Colors.grey.shade600,
+                color:
+                    isSelected ? const Color(0xFF3655B3) : Colors.grey.shade600,
               ),
             ),
           ],

@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #Produits
     path('products/', views.get_products, name='product-list'),
+    path('product/<int:id>', views.get_product, name='product-detail'),
     #Categories
     path('categories/', views.get_categories, name='category-list'),
     #Utilisateurs 

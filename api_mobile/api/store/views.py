@@ -14,6 +14,12 @@ def get_products(request):
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_product(request,id):
+    product = Product.objects.get(id=id)
+    serializer = ProductSerializer(product)
+    return Response(serializer.data)
+
 #Catégories
 @api_view(['GET'])
 def get_categories(request):

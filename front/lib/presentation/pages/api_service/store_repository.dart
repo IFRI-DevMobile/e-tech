@@ -13,6 +13,15 @@ class StoreRepository {
     }
   }
 
+  Future<Response> getProduct(int id) async {
+    try {
+      final response = await _dio.get("/product/$id");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Response> getCategories() async {
     try {
       final response = await _dio.get("/categories");
