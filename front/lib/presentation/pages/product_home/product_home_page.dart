@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../domain/models/category_model.dart';
+import '../../../../domain/models/product_model.dart';
 import 'product_home_controller.dart';
 
 class ProductHomePage extends GetView<ProductHomeController> {
@@ -25,7 +27,10 @@ class ProductHomePage extends GetView<ProductHomeController> {
                       const SizedBox(height: 24),
                       _buildTabs(),
                       const SizedBox(height: 20),
-                      _buildProductsGrid(),
+                      Obx(() => controller.selectedTab.value == 'Recommandations'
+                          ? _buildProductsGrid()
+                          : _buildCategoriesGrid(),
+                      ),
                       const SizedBox(height: 100),
                     ],
                   ),
@@ -173,7 +178,54 @@ class ProductHomePage extends GetView<ProductHomeController> {
     );
   }
 
-  Widget _buildCategoryCard(Map<String, dynamic> category) {
+  Widget _buildCategoriesGrid() {
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      
+      if (controller.categories.isEmpty) {
+        return const Center(
+          child: Text('Aucune catégorie disponible'),
+        );
+      }
+      
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 1.5,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+        ),
+        itemCount: controller.categories.length,
+        itemBuilder: (context, index) {
+          final category = controller.categories[index];
+          return _buildCategoryCard(category);
+        },
+      );
+    });
+  }
+
+  Widget _buildCategoryCard(Category category) {
+    // Définir une map pour mapper les noms d'icônes aux icônes Flutter
+    final iconMap = <String, IconData>{
+      'computer': Icons.computer,
+      'phone_iphone': Icons.phone_iphone,
+      'tablet': Icons.tablet,
+      'headphones': Icons.headphones,
+      'sports_esports': Icons.sports_esports,
+      'router': Icons.router,
+      'sd_storage': Icons.sd_storage,
+      'keyboard': Icons.keyboard,
+    };
+
+    // Obtenir l'icône correspondante ou une icône par défaut
+    final icon = category.icon != null && iconMap.containsKey(category.icon)
+        ? iconMap[category.icon]!
+        : Icons.category;
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -183,8 +235,8 @@ class ProductHomePage extends GetView<ProductHomeController> {
         onTap: () {
           // Action lors du clic sur une catégorie
           Get.snackbar(
-            category['name'],
-            'Catégorie sélectionnée',
+            category.name,
+            '${category.products?.length ?? 0} produits disponibles',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: const Color(0xFF3655B3),
             colorText: Colors.white,
@@ -205,13 +257,13 @@ class ProductHomePage extends GetView<ProductHomeController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                category['icon'] as IconData? ?? Icons.category,
+                icon,
                 size: 40,
                 color: Colors.white,
               ),
               const SizedBox(height: 12),
               Text(
-                category['name'] as String? ?? 'Catégorie',
+                category.name,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
@@ -295,12 +347,12 @@ class ProductHomePage extends GetView<ProductHomeController> {
                   children: [
                     // Image du produit centrée
                     Center(
-                      child: product.image_url.isNotEmpty
+                      child: product.imageUrl.isNotEmpty
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.network(
                                 // Utilise network pour les API
-                                product.image_url,
+                                product.imageUrl,
                                 width: double.infinity,
                                 height: double.infinity,
                                 fit: BoxFit.cover,

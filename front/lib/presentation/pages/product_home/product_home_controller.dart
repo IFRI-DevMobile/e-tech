@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../domain/models/category_model.dart';
+import '../../../../domain/models/product_model.dart';
 import '../api_service/store_repository.dart';
 
 class ProductHomeController extends GetxController {
@@ -12,7 +14,7 @@ class ProductHomeController extends GetxController {
 
   // Listes observables
   final products = <Product>[].obs;
-  final categories = <Map<String, dynamic>>[].obs;
+  final categories = <Category>[].obs;
 
   @override
   void onInit() {
@@ -52,16 +54,63 @@ class ProductHomeController extends GetxController {
     _loadCategories();
   }
 
-  void _loadCategories() {
+  Future<void> _loadCategories() async {
+    try {
+      isLoading.value = true;
+      final response = await repository.getCategories();
+      
+      if (response.statusCode == 200) {
+        final List<dynamic> rawData = response.data;
+        final List<Category> loadedCategories = [];
+        
+        // Créer une map pour regrouper les produits par catégorie
+        final Map<int, List<Product>> productsByCategory = {};
+        
+        // Remplir la map avec les produits existants
+        for (var product in products) {
+          if (!productsByCategory.containsKey(product.categoryId)) {
+            productsByCategory[product.categoryId] = [];
+          }
+          productsByCategory[product.categoryId]!.add(product);
+        }
+        
+        // Créer les catégories avec leurs produits associés
+        for (var categoryData in rawData) {
+          final category = Category(
+            id: categoryData['id'] ?? 0,
+            name: categoryData['name'] ?? 'Sans nom',
+            icon: categoryData['icon'],
+            products: productsByCategory[categoryData['id']] ?? [],
+          );
+          loadedCategories.add(category);
+        }
+        
+        categories.assignAll(loadedCategories);
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Erreur', 
+        'Impossible de charger les catégories : $e',
+        duration: const Duration(seconds: 5),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      // En cas d'erreur, charger des catégories par défaut
+      _loadDefaultCategories();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+  
+  void _loadDefaultCategories() {
     categories.assignAll([
-      {'id': 1, 'name': 'Ordinateurs', 'icon': Icons.computer},
-      {'id': 2, 'name': 'Téléphones', 'icon': Icons.phone_iphone},
-      {'id': 3, 'name': 'Tablettes', 'icon': Icons.tablet},
-      {'id': 4, 'name': 'Accessoires', 'icon': Icons.headphones},
-      {'id': 5, 'name': 'Gaming', 'icon': Icons.sports_esports},
-      {'id': 6, 'name': 'Réseau', 'icon': Icons.router},
-      {'id': 7, 'name': 'Stockage', 'icon': Icons.sd_storage},
-      {'id': 8, 'name': 'Périphériques', 'icon': Icons.keyboard},
+      Category(id: 1, name: 'Ordinateurs', icon: 'computer'),
+      Category(id: 2, name: 'Téléphones', icon: 'phone_iphone'),
+      Category(id: 3, name: 'Tablettes', icon: 'tablet'),
+      Category(id: 4, name: 'Accessoires', icon: 'headphones'),
+      Category(id: 5, name: 'Gaming', icon: 'sports_esports'),
+      Category(id: 6, name: 'Réseau', icon: 'router'),
+      Category(id: 7, name: 'Stockage', icon: 'sd_storage'),
+      Category(id: 8, name: 'Périphériques', icon: 'keyboard'),
     ]);
   }
 
@@ -116,71 +165,6 @@ class ProductHomeController extends GetxController {
       backgroundColor: const Color(0xFF3B5998),
       colorText: Colors.white,
       margin: const EdgeInsets.all(10),
-    );
-  }
-}
-
-// Modèle Product
-class Product {
-  final int id;
-  final String name;
-  final String description;
-  final double price;
-  final int stock;
-  final String image_url;
-  final int category;
-  final bool isFavorite;
-  final bool isNew;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.stock,
-    required this.price,
-    required this.category,
-    required this.image_url,
-    this.isFavorite = false,
-    this.isNew = false,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? 'Produit sans nom',
-      description: json['description'] ?? '',
-      // On s'assure que le prix est un double même si l'API envoie un int
-      price: double.tryParse(json['price'].toString()) ?? 0.0,
-      stock: json['stock'] ?? 0,
-      category: json['category'] ?? 0,
-      // Valeur par défaut si l'image est nulle
-      image_url:
-          json['image_url'] ?? 'assets/images/Products/produit_montre.jpg',
-      isNew: json['isNew'] ?? false,
-    );
-  }
-
-  Product copyWith({
-    int? id,
-    String? name,
-    String? description,
-    double? price,
-    int? stock,
-    int? categoryId,
-    bool? isFavorite,
-    bool? isNew,
-    String? image_url,
-  }) {
-    return Product(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      price: price ?? this.price,
-      description: description ?? this.description,
-      isFavorite: isFavorite ?? this.isFavorite,
-      isNew: isNew ?? this.isNew,
-      image_url: image_url ?? 'assets/images/Products/produit_montre.jpg',
-      stock: stock ?? this.stock,
-      category: category ?? this.category,
     );
   }
 }
